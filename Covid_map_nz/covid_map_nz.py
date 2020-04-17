@@ -114,6 +114,6 @@ def covid_plotting():
 
     plot_active_cases(r"C:\Users\johns\Desktop\Random Python Projects\reoveries until april 9.csv", new_cases_per_date)
 
-
+ # TODO refactor to isolate sections of the code to work independently
 if __name__ == "__main__":
     covid_plotting()
