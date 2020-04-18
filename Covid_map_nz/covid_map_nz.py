@@ -22,8 +22,9 @@ def covid_plotting():
             filepath,
             sheet_name="Probable", header=3)
         df_combined = pd.concat([df_confirmed, df_probable], sort=True)
+        df_combined.drop(0, inplace=True) #review
         df_combined.reset_index(drop=True, inplace=True)
-        df_combined['Overseas travel'].replace([np.NaN, 'No', "Unknown"], 'Community', inplace=True)
+        df_combined['Overseas travel'].replace([np.NaN, 'No', "Unknown" ," "], 'Community', inplace=True)
         no_intl_travel = len(df_combined[df_combined['Overseas travel'] == 'Community'])
         percent_community_transmission = no_intl_travel / len(df_combined) * 100
         df_combined["Last country before return"].replace(np.NaN, "Community", inplace=True)
@@ -60,7 +61,7 @@ def covid_plotting():
         print(f'International travel Cases: {non_community_cases}')
         print(df_intl_source.to_string())
         return new_cases_per_date
-    new_cases_per_date = plot_growth_rate('https://www.health.govt.nz/system/files/documents/pages/covid-19-case-list-17-april-2020.xlsx', 7)
+    new_cases_per_date = plot_growth_rate('https://www.health.govt.nz/system/files/documents/pages/web-covid-confprob_20200418-2.xlsx', 7)
 
     def plot_active_cases(filepath, dataframe):
         """ Plots cumulative cases, recovered, and active cases over time, requires manual entry of new recoveries as not
