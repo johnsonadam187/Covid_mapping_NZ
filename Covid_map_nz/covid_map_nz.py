@@ -22,7 +22,7 @@ def covid_plotting():
             filepath,
             sheet_name="Probable", header=3)
         df_combined = pd.concat([df_confirmed, df_probable], sort=True)
-        df_combined.drop(0, inplace=True) #review
+        # df_combined.drop(0, inplace=True) #review
         df_combined.reset_index(drop=True, inplace=True)
         df_combined['Overseas travel'].replace([np.NaN, 'No', "Unknown" ," "], 'Community', inplace=True)
         no_intl_travel = len(df_combined[df_combined['Overseas travel'] == 'Community'])
@@ -61,7 +61,7 @@ def covid_plotting():
         print(f'International travel Cases: {non_community_cases}')
         print(df_intl_source.to_string())
         return new_cases_per_date
-    new_cases_per_date = plot_growth_rate('https://www.health.govt.nz/system/files/documents/pages/web-covid-confprob_20200418-2.xlsx', 7)
+    new_cases_per_date = plot_growth_rate('https://www.health.govt.nz/system/files/documents/pages/covid-caselist-20april.xlsx', 7)
 
     def plot_active_cases(filepath, dataframe):
         """ Plots cumulative cases, recovered, and active cases over time, requires manual entry of new recoveries as not
@@ -78,6 +78,9 @@ def covid_plotting():
         recoveries['15/04/2020'] = 728
         recoveries['16/04/2020'] = 770
         recoveries['17/04/2020'] = 816
+        recoveries['18/04/2020'] = 912
+        recoveries['19/04/2020'] = 974
+
 
         new_index = [item.strftime("%d/%m/%Y") for item in
                      cumulative_new_cases.index]  # reformat dates into correct format from Cumulative
@@ -107,6 +110,7 @@ def covid_plotting():
         plt.plot(new_cases["New Cases"], 'b--', label="New Cases")
         plt.plot(new_cases["Recoveries"], 'r--', label="Recoveries")
         plt.plot(new_cases["Active Cases"], 'g-', label="Active Cases")
+        plt.vlines([18, 32], ymin =0, ymax =new_cases["New Cases"].max(),  colors=['k', 'b'], linestyles=['solid', 'solid'])
         plt.title("Covid 19 in NZ")
         plt.xticks(range(len(new_cases.index)), new_cases.index, rotation=75)
         plt.legend(loc='best')
